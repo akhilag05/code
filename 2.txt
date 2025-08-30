@@ -1,0 +1,110 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+int info;
+struct node *link;
+};
+typedef struct node *NODE;
+NODE getnode(void)
+{
+NODE x;
+x=(NODE)malloc(sizeof(struct node));
+if(x==NULL)
+{
+printf("\nOut of memory");
+exit(0);
+}
+return x;
+}
+
+NODE insert_rear(int item,NODE first)
+{
+NODE temp,cur;
+temp=getnode();
+temp->info=item;
+temp->link=NULL;
+if(first==NULL)
+return temp;
+cur=first;
+while(cur->link!=NULL)
+{
+cur=cur->link;
+}
+cur->link=temp;
+return first;
+}
+NODE delete_item(NODE first, int item)
+{
+NODE prev, cur;
+if(first==NULL)
+{
+printf("\n List is Empty");
+return first;
+}
+prev=NULL;
+cur=first;
+while(cur!=NULL && item!=cur->info)
+{
+prev=cur;
+cur=cur->link;
+}
+if(cur==NULL)
+{
+printf("\n The item to be deleted is not found in the list");
+return first;
+}
+prev->link=cur->link;
+free(cur);
+return first;
+}
+void display(NODE first)
+{
+NODE temp;
+if(first==NULL)
+{
+printf("\nList is empty");
+return;
+}
+printf("\nThe contents of the list:");
+temp=first;
+while(temp!=NULL)
+{
+printf("%d\t",temp->info);
+temp=temp->link;
+}
+printf("\n");
+}
+int main()
+{
+NODE first=NULL;
+int choice,item,n,i;
+//clrscr();
+do
+{
+printf("\n 1: Create List\n 2: Delete specified item\n 3: Display\n 4: Exit\n");
+printf("\nEnter the choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1: printf("\nEnter the no. of nodes to create List:");
+scanf("%d",&n);
+for(i=1;i<=n;i++)
+{
+printf("\nEnter the item %d to be inserted:",i);
+scanf("%d",&item);
+first=insert_rear(item,first);
+}
+break;
+case 2: printf("\nEnter the item to be deleted:");
+scanf("%d",&item);
+first=delete_item(first,item);
+break;
+case 3: display(first);
+break;
+}
+}while(choice!=4);
+getch();
+return 0;
+}

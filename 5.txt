@@ -1,0 +1,67 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#define MAX 5
+void push(int item,int s[],int *top)
+{
+if(*top==MAX-1)
+{
+printf("stack overflow\n");
+return;
+}
+(*top)++;
+s[*top]=item;
+printf("\t\t%d is succesfully inserted\n", item);
+}
+void pop(int s[],int *top)
+{
+if(*top==-1)
+{
+printf("stack is empty\n");
+return;
+}
+printf("\t\t%d element is deleted",s[*top]);
+(*top)--;
+}
+void display(int s[],int top)
+{
+int i;
+if(top!=-1)
+{
+printf("stack contains :\n");
+for (i=0;i<=top;i++)
+printf("%d\n", s[i]);
+}
+else
+printf("stack is empty\n");
+
+}
+void main()
+{
+int choice,item,s[MAX],top=-1;
+for(;;)
+{
+printf("\n*****************");
+printf("\n1.push \n 2.pop\n 3.display\n 4.exit\n");
+printf("\n*****************");
+printf("\nEnter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:
+printf("\nEnter an item to be inserted:");
+scanf("%d",&item);
+push(item,s,&top);
+break;
+case 2:
+pop(s,&top);
+break;
+case 3:
+display(s,top);
+break;
+default:
+printf("\ninvaild choice\n");
+exit(0);
+}
+}
+}

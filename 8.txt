@@ -1,0 +1,116 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<conio.h>
+#define QS 5
+struct node
+{
+char info[10];
+struct node *link;
+};
+typedef struct node *NODE;
+NODE getnode(void)
+{
+NODE x;
+x=(NODE)malloc(sizeof(struct node));
+if(x==NULL)
+{
+printf("\nOut of memory");
+exit(0);
+}
+return x;
+}
+NODE insert_rear(char item[10],NODE first,int *r)
+{
+NODE temp,cur;
+if(*r==QS-1)
+{
+printf("\n Queue is Full! insertion not possible\n");
+return first;
+}
+temp=getnode();
+strcpy(temp->info,item);
+temp->link=NULL;
+if(*r==-1)
+{
+*r=*r+1;
+printf("r=%d",*r);
+first=temp;
+return first;
+}
+else
+{
+*r=*r+1;
+cur=first;
+while(cur->link!=NULL)
+{
+cur=cur->link;
+}
+}
+cur->link=temp;
+return first;
+}
+NODE delete_front(NODE first, int *f, int *r)
+{
+NODE temp;
+if(*f>*r)
+{
+printf("\n Queue is Empty! deletion not possible\n");
+*f=0;
+*r=-1;
+return first;
+}
+temp=first;
+first=first->link;
+printf("The node with info [ %s ] is deleted from the front end",temp->info);
+(*f)++;
+free(temp);
+return first;
+}
+void display(NODE first, int f, int r)
+{
+NODE temp;
+int i;
+if(f>r)
+{
+    printf("\nList is empty");
+return;
+}
+printf("\nThe contents of the list:");
+temp=first;
+for(i=f;i<=r;i++)
+{
+printf("%s\n",temp->info);
+temp=temp->link;
+}
+printf("\n");
+}
+int main()
+{
+NODE first=NULL;
+int choice,f=0,r=-1;
+char item[10];
+//clrscr();
+do
+{
+printf("\n 1: Queue_Insert\n 2: Queue_delete\n 3: Queue_Display\n 4:Exit\n");
+printf("\nEnter the choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:
+printf("\nEnter the item to be inserted into the List(string data):");
+scanf("%s",item);
+first=insert_rear(item,first,&r);
+break;
+case 2:
+first=delete_front(first,&f,&r);
+break;
+case 3:
+display(first,f,r);
+break;
+}
+}while(choice!=4);
+getch();
+return 0;
+}
